@@ -41,7 +41,7 @@ const sectionLinks = $$(".nav-links a");
 const sectionObserver = new IntersectionObserver(entries => entries.forEach(entry => {
   if (entry.isIntersecting) sectionLinks.forEach(link => link.classList.toggle("active", link.hash === `#${entry.target.id}`));
 }), {rootMargin:"-35% 0px -55% 0px"});
-["work","about","playground","contact"].forEach(id => {const el=document.getElementById(id); if(el)sectionObserver.observe(el)});
+["work","motion","playground","about","contact"].forEach(id => {const el=document.getElementById(id); if(el)sectionObserver.observe(el)});
 
 // Local time labels
 function updateTime(){
@@ -174,12 +174,12 @@ let particles=[], pointer={x:-1000,y:-1000},raf=0,canvasVisible=true;
 function initParticles(){
   const rect=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,1.5);
   canvas.width=Math.max(1,Math.floor(rect.width*dpr));canvas.height=Math.max(1,Math.floor(rect.height*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);
-  const count=Math.min(95,Math.floor(rect.width/7));
+  const count=Math.min(window.innerWidth<620?52:95,Math.floor(rect.width/7));
   particles=Array.from({length:count},()=>({x:Math.random()*rect.width,y:Math.random()*rect.height,ox:0,oy:0,vx:0,vy:0,r:Math.random()*1.3+.5}));
   particles.forEach(p=>{p.ox=p.x;p.oy=p.y});
 }
 function drawParticles(){
-  if(!canvasVisible)return;
+  if(!canvasVisible||document.hidden)return;
   const rect=canvas.getBoundingClientRect();ctx.clearRect(0,0,rect.width,rect.height);
   particles.forEach(p=>{
     const dx=p.x-pointer.x,dy=p.y-pointer.y,dist=Math.sqrt(dx*dx+dy*dy);
@@ -195,6 +195,7 @@ canvas.addEventListener("pointerleave",()=>{pointer={x:-1000,y:-1000}});
 $("#resetParticles").addEventListener("click",()=>{initParticles();pointer={x:-1000,y:-1000};if(reducedMotion)drawParticles()});
 const canvasObserver=new IntersectionObserver(entries=>{canvasVisible=entries[0].isIntersecting;if(canvasVisible){if(raf)cancelAnimationFrame(raf);drawParticles()}else if(raf)cancelAnimationFrame(raf)});
 canvasObserver.observe(canvas);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){if(raf)cancelAnimationFrame(raf);drawParticles()}});
 window.addEventListener("resize",()=>{initParticles();if(reducedMotion)drawParticles()});
 initParticles();
 if(reducedMotion){drawParticles()}else{drawParticles()}
@@ -202,7 +203,7 @@ if(reducedMotion){drawParticles()}else{drawParticles()}
 // Reveal effects only when motion is allowed
 if(!reducedMotion && "IntersectionObserver" in window){
   const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("visible");revealObserver.unobserve(entry.target)}}),{threshold:.12});
-  $$(".section-heading,.chapter-index,.dev-layout,.motion-head,.design-head,.playground-head,.about-layout,.toolkit-head,.contact-content").forEach(el=>{el.classList.add("reveal");revealObserver.observe(el)});
+  $$(".section-heading,.chapter-index,.dev-layout,.motion-head,.playground-head,.about-layout,.toolkit-head,.contact-content,.work-head,.now-head,.process-head").forEach(el=>{el.classList.add("reveal");revealObserver.observe(el)});
 }
 
 // Contact configuration warning + actual mailto link
@@ -249,7 +250,7 @@ window.addEventListener("scroll",()=>{if(!scrollTick){requestAnimationFrame(upda
 updateScrollStory();
 if(!reducedMotion && "IntersectionObserver" in window){
   const cinematicObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("in-scene");else e.target.classList.remove("in-scene")}),{threshold:.16});
-  $$(".intro-note,.dev-section,.motion-section,.design-section,.playground-section,.about-section,.toolkit-section,.contact-section").forEach(el=>cinematicObserver.observe(el));
+  $$(".intro-note,.dev-section,.motion-section,.repos-section,.playground-section,.about-section,.now-section,.process-section,.toolkit-section,.contact-section").forEach(el=>cinematicObserver.observe(el));
 }
 
 // Live age counter, calculated from the supplied birth date (8 March 2011).

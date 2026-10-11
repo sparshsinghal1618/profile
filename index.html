@@ -4,11 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ff9b72">
-  <meta name="description" content="Explore Sparsh Singhal’s sunset-disco digital universe: creative coding, visual experiments, generative posters, and scroll-driven motion.">
+  <meta name="description" content="Sparsh Singhal — creative developer and digital creator from India. Code, motion, design and experiments: browser toys, scroll-stories, generative posters and cinematic edits.">
   <meta property="og:title" content="Sparsh Singhal — Creative Developer & Digital Creator">
   <meta property="og:description" content="Building things that feel like the future. Code. Motion. Design. Experiments.">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/sparsh-portrait.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sparsh Singhal — Creative Developer & Digital Creator">
+  <meta name="twitter:description" content="Building things that feel like the future. Code. Motion. Design. Experiments.">
+  <meta name="twitter:image" content="assets/sparsh-portrait.jpg">
+  <meta name="author" content="Sparsh Singhal">
   <title>Sparsh.S — Sunset Disco / Digital Universe</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Person","name":"Sparsh Singhal","alternateName":"SPARSH.S","jobTitle":"Creative Developer & Digital Creator","url":"https://sparshsinghal1618.github.io/profile/","email":"mailto:sparshsinghal.vca@gmail.com","knowsAbout":["Creative development","Interactive 3D","Motion design","Video editing","Visual design","Creative coding"],"sameAs":["https://github.com/sparshsinghal1618","https://www.reddit.com/user/Sparsh1618/","https://open.spotify.com/user/31ufnhvckajf4tfvqnn2nmhuv2ve"]}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,10 +38,10 @@
   </div>
 
   <header class="site-header" id="top">
-    <a class="wordmark" href="#top" aria-label="Sparsh, back to top"><img class="brand-avatar" src="assets/sparsh-logo.png" alt="Sparsh supplied logo" /><span class="wordmark-text">SPARSH<span>.S</span></span></a>
+    <a class="wordmark" href="#top" aria-label="Sparsh, back to top"><img class="brand-avatar" src="assets/sparsh-logo.png" alt="Sparsh supplied logo" width="30" height="30" decoding="async" /><span class="wordmark-text">SPARSH<span>.S</span></span></a>
     <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open navigation"><span></span><span></span></button>
     <nav class="nav-links" id="navLinks" aria-label="Main navigation">
-      <a href="#design">POSTERS</a><a href="#repos">GITHUB</a><a href="#about">ABOUT</a><a href="#playground">PLAYGROUND</a><a href="#contact" class="nav-contact">CONTACT <i>↗</i></a>
+      <a href="#work">WORK</a><a href="#motion">MOTION</a><a href="#playground">PLAYGROUND</a><a href="#about">ABOUT</a><a href="#contact" class="nav-contact">CONTACT <i>↗</i></a>
     </nav>
   </header>
 
@@ -40,10 +49,11 @@
     <section class="hero" id="hero">
       <div class="hero-grid"></div>
       <div class="hero-topline"><span>INDEPENDENT CREATOR.</span><span>DESIGN × CODE × MOTION.</span><span class="live-time" data-local-time>LOCAL TIME — --:--</span></div>
-      <div class="orbital-stage" aria-label="Abstract chrome object, gently animated">
+      <div class="orbital-stage" id="orbitalStage" aria-label="Rotating three-dimensional sculpture">
         <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
-        <div class="hero-object" id="heroObject"><div class="object-cut"></div><div class="object-shine"></div><div class="object-core"></div></div>
-        <div class="object-label label-a">FORM / 001</div><div class="object-label label-b">CHROME STUDY</div>
+        <canvas class="hero-3d" id="hero3d" aria-hidden="true"></canvas>
+        <div class="hero-object" id="heroObject" aria-hidden="true"><div class="object-cut"></div><div class="object-shine"></div><div class="object-core"></div></div>
+        <div class="object-label label-a">FORM / 002</div><div class="object-label label-b">WEBGL STUDY</div>
         <div class="crosshair crosshair-a">+</div><div class="crosshair crosshair-b">+</div>
       </div>
       <div class="hero-copy">
@@ -51,16 +61,65 @@
         <h1>MAKING<br><span>DIGITAL</span><br>FEEL ALIVE<span class="lime">.</span></h1>
         <div class="hero-bottom">
           <p class="hero-description">I'm Sparsh — a creator exploring code, visuals, motion, and the spaces in between.</p>
-          <div class="hero-actions"><a class="button button-lime" href="#playground">EXPLORE THE EXPERIENCE <span>↘</span></a><a class="text-link" href="#contact">LET'S CONNECT <span>↗</span></a></div>
+          <div class="hero-actions"><a class="button button-lime" href="#work">EXPLORE THE WORK <span>↘</span></a><a class="text-link" href="#contact">LET'S CONNECT <span>↗</span></a></div>
         </div>
       </div>
       <div class="hero-footer"><span>EXPERIMENTAL BY NATURE.</span><span class="scroll-cue"><span class="scroll-line"></span> SCROLL TO EXPLORE</span><span>INDIA / EARTH</span></div>
     </section>
 
-    <section class="intro-note section-pad">
+    <section class="intro-note section-pad" id="manifesto">
+      <div class="chapter-index"><span>00 / INTRODUCING</span><span>SS-001 / DIGITAL SPACE</span></div>
       <p class="eyebrow">A SMALL UNIVERSE, BUILT WITH INTENTION</p>
-      <p class="statement">Curiosity is the starting point.<br><span>Creation is what happens next.</span></p>
-      <div class="note-bottom"><p>Code. Motion. Design. Experiments.</p><p>Independent mind. Open tabs. Endless iterations.</p></div>
+      <p class="statement">I build things that didn't exist<br>this morning — then I take them <span>apart to see how they feel.</span></p>
+      <div class="note-bottom">
+        <p>Curiosity is the starting point. Creation is what happens next.</p>
+        <p>Code. Motion. Design. Experiments. Independent mind, open tabs, endless iterations.</p>
+      </div>
+      <ul class="principle-list">
+        <li><span>01</span> Curiosity before credentials</li>
+        <li><span>02</span> Craft over shortcuts</li>
+        <li><span>03</span> Ship it, then refine it</li>
+        <li><span>04</span> Stay a little strange</li>
+      </ul>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>CREATIVE DEVELOPMENT ✦ MOTION PICTURES ✦ VISUAL EXPERIMENTS ✦ BROWSER TOYS ✦ 3D ON THE WEB ✦ SCROLL STORIES ✦ GOOD THINGS TAKE TIME ✦ </span>
+        <span>CREATIVE DEVELOPMENT ✦ MOTION PICTURES ✦ VISUAL EXPERIMENTS ✦ BROWSER TOYS ✦ 3D ON THE WEB ✦ SCROLL STORIES ✦ GOOD THINGS TAKE TIME ✦ </span>
+      </div>
+    </div>
+
+    <section class="work-section section-pad" id="work">
+      <div class="chapter-index"><span>01 / SELECTED WORK</span><span>REAL PROJECTS / LIVE LINKS</span></div>
+      <div class="work-head"><h2>Things I made<br><span>because I had to.</span></h2><p>Real work from my GitHub and my timeline — browser experiments, scroll-stories and motion. Every cover opens the live thing in a new tab.</p></div>
+      <div class="work-grid">
+        <a class="work-card work-card-wide" href="https://sparshsinghal1618.github.io/finger-track/" target="_blank" rel="noopener noreferrer">
+          <div class="work-cover"><img src="assets/finger-track.svg" alt="Finger Track — hand-gesture tracking preview" loading="lazy" decoding="async"><span class="work-index">01</span><span class="work-kind">EXPERIMENT</span></div>
+          <div class="work-body"><div class="work-top"><h3>Finger Track</h3><span class="work-arrow">↗</span></div><p>Real-time hand-gesture tracking in the browser — detect gestures, read numbers 0–7, and draw in the air with both index fingers.</p><div class="work-meta"><span>MediaPipe</span><span>JavaScript</span><span>Canvas</span></div></div>
+        </a>
+        <a class="work-card" href="https://sparshsinghal1618.github.io/ascii-cam/" target="_blank" rel="noopener noreferrer">
+          <div class="work-cover"><img src="assets/ascii-cam-live.png" alt="ASCII Cam rendering a live feed as ASCII art" loading="lazy" decoding="async" width="1440" height="900"><span class="work-index">02</span><span class="work-kind">EXPERIMENT</span></div>
+          <div class="work-body"><div class="work-top"><h3>ASCII Cam</h3><span class="work-arrow">↗</span></div><p>A camera experiment that renders a live video feed as ASCII art — text as pixels, in real time.</p><div class="work-meta"><span>JavaScript</span><span>Canvas</span><span>Webcam</span></div></div>
+        </a>
+        <a class="work-card" href="https://sparshsinghal1618.github.io/radhakrishna/" target="_blank" rel="noopener noreferrer">
+          <div class="work-cover"><img src="assets/radha-krishna-art.jpg" alt="Radhe Krishna — artwork from the scroll-story site" loading="lazy" decoding="async" width="960" height="1069"><span class="work-index">03</span><span class="work-kind">SCROLL-STORY</span></div>
+          <div class="work-body"><div class="work-top"><h3>Radhe Krishna</h3><span class="work-arrow">↗</span></div><p>The life of Krishna told as a scroll-story — a long-form single-page narrative driven entirely by scrolling.</p><div class="work-meta"><span>HTML</span><span>CSS</span><span>JavaScript</span></div></div>
+        </a>
+        <a class="work-card work-card-wide is-video" href="#motion">
+          <div class="work-cover work-cover-video"><span class="work-play" aria-hidden="true">▶</span><span class="work-index">04</span><span class="work-kind">MOTION</span></div>
+          <div class="work-body"><div class="work-top"><h3>Race Edit</h3><span class="work-arrow">↓</span></div><p>Sound-synced cuts, speed ramps and grade — cut to the rhythm and built for full-screen playback. Watch it in the Motion section.</p><div class="work-meta"><span>Premiere Pro</span><span>After Effects</span><span>Sound design</span></div></div>
+        </a>
+        <a class="work-card" href="https://sparshsinghal1618.github.io/cosmos/" target="_blank" rel="noopener noreferrer">
+          <div class="work-cover"><img src="assets/cosmos.png" alt="Cosmos — live site screenshot" loading="lazy" decoding="async" width="1600" height="1000"><span class="work-index">05</span><span class="work-kind">WEB BUILD</span></div>
+          <div class="work-body"><div class="work-top"><h3>Cosmos</h3><span class="work-arrow">↗</span></div><p>A from-scratch single-page web build — one of my larger front-end experiments in structure and layout.</p><div class="work-meta"><span>HTML</span><span>CSS</span><span>JavaScript</span></div></div>
+        </a>
+        <a class="work-card" href="https://sparshsinghal1618.github.io/profile/" target="_blank" rel="noopener noreferrer">
+          <div class="work-cover"><img src="assets/sparsh-site.png" alt="SPARSH.S — screenshot of this live site" loading="lazy" decoding="async" width="1440" height="900"><span class="work-index">06</span><span class="work-kind">THIS SITE</span></div>
+          <div class="work-body"><div class="work-top"><h3>SPARSH.S</h3><span class="work-arrow">↗</span></div><p>The hand-built static portfolio you're reading right now — no framework, just the fundamentals.</p><div class="work-meta"><span>HTML</span><span>CSS</span><span>JavaScript</span></div></div>
+        </a>
+      </div>
+      <p class="work-more"><a class="text-link" href="https://github.com/sparshsinghal1618?tab=repositories" target="_blank" rel="noopener">SEE EVERYTHING ON GITHUB <span>↗</span></a></p>
     </section>
 
     <section class="dev-section section-pad" id="development">
@@ -77,21 +136,12 @@
     <section class="motion-section section-pad" id="motion">
       <div class="chapter-index"><span>03 / MOTION PICTURES</span><span>PLAYBACK / OPTIONAL</span></div>
       <div class="motion-head"><h2>Every frame<br><span>has a feeling.</span></h2><p>Video editing is more than cutting clips. It's timing, rhythm, sound, and knowing when to let a moment breathe.</p></div>
-      <div class="film-frame film-frame-video"><video class="showreel-video" controls playsinline preload="metadata" aria-label="Sparsh video edit showreel"><source src="assets/video-edit.mp4" type="video/mp4">Your browser does not support embedded video. Please use a modern browser.</video><div class="film-video-label">SPARSH / VISUAL EDIT</div></div>
-      <p class="film-caption"><span>FRAME 001 — VIDEO EDIT</span><span>Play directly here · video included with this website</span></p>
+      <div class="film-frame film-frame-video"><video class="showreel-video" controls playsinline preload="metadata" poster="assets/video-poster.jpg" aria-label="Sparsh video edit showreel"><source src="assets/video-edit.mp4" type="video/mp4">Your browser does not support embedded video. Please use a modern browser.</video><div class="film-video-label">SPARSH / VISUAL EDIT</div></div>
+      <p class="film-caption"><span>FRAME 01 — VISUAL EDIT</span><span>PLAYBACK · SOUND ON · 16:9</span></p>
+      <div class="motion-tags"><span>CINEMATIC EDITS</span><span>SHORT-FORM</span><span>MOTION GRAPHICS</span><span>SOUND DESIGN</span><span>EXPERIMENTAL STORYTELLING</span></div>
     </section>
 
-    <section class="design-section section-pad" id="design">
-      <div class="chapter-index"><span>04 / VISUAL EXPERIMENTS</span><span>ARCHIVE / OPEN STUDIES</span></div>
-      <div class="design-head"><h2>Pixels, posters,<br><span>and other obsessions.</span></h2><p>A growing archive of visual directions, type experiments, and compositions. Select a piece to inspect it.</p></div>
-      <div class="artwork-grid">
-        <button class="artwork art-tile-one" data-art="0" aria-label="Open artwork: Stay curious"><span class="tile-number">ARTWORK / 001</span><strong>STAY<br><i>CURIOUS.</i></strong><span class="tile-foot">A MIND IN MOTION</span></button>
-        <button class="artwork art-tile-two" data-art="1" aria-label="Open artwork: Less but better"><span class="tile-number">ARTWORK / 002</span><div class="tile-shape"></div><strong>LESS<br> BUT<br><i>BETTER.</i></strong><span class="tile-foot">FORM STUDY / 02</span></button>
-        <button class="artwork art-tile-three" data-art="2" aria-label="Open artwork: Make room"><span class="tile-number">ARTWORK / 003</span><strong>MAKE<br>ROOM FOR<br><i>WONDER.</i></strong><span class="tile-foot">COMPOSITION EXERCISE</span></button>
-      </div>
-    </section>
-
-    <section class="repos-section section-pad" id="repos"><div class="chapter-index"><span>05 / OPEN SOURCE</span><span>GITHUB / LIVE REPOSITORIES</span></div><div class="repos-head"><h2>Things on<br><span>the internet.</span></h2><p>Every public repository, with a real README screenshot when one is available. Select a cover to open the project.</p></div><div class="repo-status" id="repoStatus" role="status">CONNECTING TO GITHUB…</div><div class="repo-grid" id="repoGrid" aria-live="polite"></div><p class="repo-more"><a class="text-link" href="https://github.com/sparshsinghal1618?tab=repositories" target="_blank" rel="noopener">VIEW ALL REPOSITORIES ON GITHUB <span>↗</span></a></p></section>
+    <section class="repos-section section-pad" id="repos"><div class="chapter-index"><span>04 / OPEN SOURCE</span><span>GITHUB / LIVE REPOSITORIES</span></div><div class="repos-head"><h2>Things on<br><span>the internet.</span></h2><p>Every public repository, with a real README screenshot when one is available. Select a cover to open the project.</p></div><div class="repo-status" id="repoStatus" role="status">CONNECTING TO GITHUB…</div><div class="repo-grid" id="repoGrid" aria-live="polite"></div><p class="repo-more"><a class="text-link" href="https://github.com/sparshsinghal1618?tab=repositories" target="_blank" rel="noopener">VIEW ALL REPOSITORIES ON GITHUB <span>↗</span></a></p></section>
     <section class="playground-section section-pad" id="playground">
       <div class="chapter-index"><span>05 / THE PLAYGROUND</span><span>INTERACTIVE LABORATORY</span></div>
       <div class="playground-head"><h2>Not everything<br><span>needs a reason.</span></h2><p>Small interactive experiments. Press things, change things, see what happens.</p></div>
@@ -105,31 +155,186 @@
 
     <section class="about-section section-pad" id="about">
       <div class="chapter-index"><span>06 / BEHIND THE SCREEN</span><span>THE PERSON, NOT THE PIXELS</span></div>
-      <div class="about-layout"><div class="about-big"><img class="about-portrait" src="assets/sparsh-portrait.jpg" alt="Sparsh Singhal" loading="lazy"><p class="eyebrow">A WORK IN PROGRESS — LIKE EVERY GOOD THING</p><h2>Still learning.<br><span>Always building.</span></h2><div class="about-mark">S<span>.</span></div></div><div class="about-copy"><p class="about-lead">I'm Sparsh Singhal. I like exploring what happens when design, technology, and storytelling come together.</p><div class="age-card"><div class="age-card-top"><span>THE SPARSH TIMELINE / 08.03.2011</span><span class="age-live"><i></i> LIVE AGE</span></div><div class="age-main"><strong id="ageYears">15</strong><span>YEARS<br>OLD</span></div><div class="age-clock"><div><strong id="ageMonths">--</strong><span>MONTHS</span></div><div><strong id="ageDays">--</strong><span>DAYS</span></div><div><strong id="ageHours">--</strong><span>HOURS</span></div><div><strong id="ageMinutes">--</strong><span>MINUTES</span></div><div><strong id="ageSeconds">--</strong><span>SECONDS</span></div></div><p>Getting older by the second. Just getting started.</p></div><p>From building websites to editing videos and experimenting with visuals, I'm interested in turning ideas into things people can actually experience.</p><div class="currently"><p class="eyebrow">CURRENTLY EXPLORING</p><div><span>01</span> Creative development</div><div><span>02</span> Interactive 3D</div><div><span>03</span> Motion and editing</div><div><span>04</span> Visual design</div></div><div class="currently-into"><p class="eyebrow">CURRENTLY INTO</p><p>New ideas, visual systems, and the next thing I haven't figured out yet.</p></div></div></div>
+      <div class="about-layout"><div class="about-big"><img class="about-portrait" src="assets/sparsh-portrait.jpg" alt="Sparsh Singhal" loading="lazy" decoding="async" width="914" height="1200"><p class="eyebrow">A WORK IN PROGRESS — LIKE EVERY GOOD THING</p><h2>Still learning.<br><span>Always building.</span></h2><div class="about-mark">S<span>.</span></div></div><div class="about-copy"><p class="about-lead">I'm Sparsh Singhal. I like exploring what happens when design, technology, and storytelling come together.</p><div class="age-card"><div class="age-card-top"><span>THE SPARSH TIMELINE / 08.03.2011</span><span class="age-live"><i></i> LIVE AGE</span></div><div class="age-main"><strong id="ageYears">15</strong><span>YEARS<br>OLD</span></div><div class="age-clock"><div><strong id="ageMonths">--</strong><span>MONTHS</span></div><div><strong id="ageDays">--</strong><span>DAYS</span></div><div><strong id="ageHours">--</strong><span>HOURS</span></div><div><strong id="ageMinutes">--</strong><span>MINUTES</span></div><div><strong id="ageSeconds">--</strong><span>SECONDS</span></div></div><p>Getting older by the second. Just getting started.</p></div><p>From building websites to editing videos and experimenting with visuals, I'm interested in turning ideas into things people can actually experience.</p><div class="currently"><p class="eyebrow">CURRENTLY EXPLORING</p><div><span>01</span> Creative development</div><div><span>02</span> Interactive 3D</div><div><span>03</span> Motion and editing</div><div><span>04</span> Visual design</div></div><div class="currently-into"><p class="eyebrow">CURRENTLY INTO</p><p>New ideas, visual systems, and the next thing I haven't figured out yet.</p></div></div></div>
+    </section>
+
+    <section class="now-section section-pad" id="now">
+      <div class="chapter-index"><span>07 / CURRENTLY</span><span>RIGHT NOW / A MOVING TARGET</span></div>
+      <div class="now-head"><h2>A snapshot,<br><span>not a monument.</span></h2><p>What's on my screen and in my head this season. It changes; that's the point.</p></div>
+      <div class="now-grid">
+        <div class="now-card"><span class="now-label">LISTENING</span><p>A loop of something cinematic.</p></div>
+        <div class="now-card"><span class="now-label">WATCHING</span><p>Title sequences and short films.</p></div>
+        <div class="now-card"><span class="now-label">READING</span><p>Design systems, motion studies.</p></div>
+        <div class="now-card"><span class="now-label">LEARNING</span><p>Shader fundamentals.</p></div>
+        <div class="now-card"><span class="now-label">BUILDING</span><p>This site, and whatever's next.</p></div>
+        <div class="now-card now-card-sound"><span class="now-label">THE SOUNDTRACK</span><p>Every public playlist — the music that shapes how I cut, pace and compose.</p><div class="playlist-links"><a class="playlist-link" href="https://open.spotify.com/playlist/0VRJIDmT1jXlzpbW7bLrU2" target="_blank" rel="noopener"><span class="playlist-name">Sonic Canvas</span><span class="playlist-arrow">↗</span></a><a class="playlist-link" href="https://open.spotify.com/playlist/68fo2mCGb9AHxcdOeRhlB8" target="_blank" rel="noopener"><span class="playlist-name">Sonic Canvass</span><span class="playlist-arrow">↗</span></a><a class="playlist-link" href="https://open.spotify.com/playlist/2MjSQIrVl6BrsIRkrEcME0" target="_blank" rel="noopener"><span class="playlist-name">hahahahahhahahah</span><span class="playlist-arrow">↗</span></a></div></div>
+      </div>
+    </section>
+
+    <section class="process-section section-pad" id="process">
+      <div class="chapter-index"><span>08 / THE PROCESS</span><span>CURIOUS → SHIP</span></div>
+      <div class="process-head"><h2>How an idea<br><span>becomes a thing.</span></h2><p>The loop I run on almost everything: follow the curiosity, build it ugly, break it, then make it feel right.</p></div>
+      <ol class="process-track">
+        <li><span>01</span><h3>Notice</h3><p>Start with a feeling, a detail, or a question I can't drop.</p></li>
+        <li><span>02</span><h3>Build</h3><p>Get a rough version working — momentum over polish.</p></li>
+        <li><span>03</span><h3>Break</h3><p>Take it apart. Find where it's honest and where it's just decoration.</p></li>
+        <li><span>04</span><h3>Refine</h3><p>Turn ones and zeros into feeling: type, timing, colour, restraint.</p></li>
+        <li><span>05</span><h3>Ship</h3><p>Put it in front of real people, then keep iterating.</p></li>
+      </ol>
     </section>
 
     <section class="toolkit-section section-pad" id="toolkit">
-      <div class="chapter-index"><span>07 / THE TOOLKIT</span><span>TOOLS ARE PART OF THE PROCESS</span></div>
-      <div class="toolkit-head"><h2>Built with tools.<br><span>Driven by curiosity.</span></h2><p>Edit the list and status labels to reflect the tools you actually use. No made-up skill percentages.</p></div>
+      <div class="chapter-index"><span>09 / THE TOOLKIT</span><span>LABELLED BY REAL COMFORT LEVEL</span></div>
+      <div class="toolkit-head"><h2>Built with tools.<br><span>Driven by curiosity.</span></h2><p>No invented skill percentages — just an honest map of what I reach for and how comfortable I am with it right now.</p></div>
       <div class="tool-groups">
-        <div><p class="eyebrow">BUILD</p><ul><li><span>HTML / CSS / JavaScript</span><em>EDIT STATUS</em></li><li><span>React / TypeScript</span><em>EDIT STATUS</em></li><li><span>Three.js / WebGL</span><em>EXPLORING</em></li></ul></div>
-        <div><p class="eyebrow">DESIGN</p><ul><li><span>Figma</span><em>EDIT STATUS</em></li><li><span>Photoshop</span><em>EDIT STATUS</em></li><li><span>Visual systems</span><em>EXPLORING</em></li></ul></div>
-        <div><p class="eyebrow">MOTION</p><ul><li><span>Premiere Pro</span><em>EDIT STATUS</em></li><li><span>Motion graphics</span><em>EXPLORING</em></li><li><span>Blender</span><em>EXPLORING</em></li></ul></div>
+        <div><p class="eyebrow">BUILD</p><ul><li><span>HTML / CSS</span><em>COMFORTABLE</em></li><li><span>JavaScript</span><em>COMFORTABLE</em></li><li><span>React</span><em>CURRENTLY USING</em></li><li><span>TypeScript</span><em>LEARNING</em></li><li><span>Three.js</span><em>CURRENTLY USING</em></li><li><span>Git / GitHub</span><em>COMFORTABLE</em></li></ul></div>
+        <div><p class="eyebrow">DESIGN</p><ul><li><span>Figma</span><em>CURRENTLY USING</em></li><li><span>Photoshop</span><em>CURRENTLY USING</em></li><li><span>Illustrator</span><em>EXPLORING</em></li><li><span>Visual systems</span><em>EXPLORING</em></li></ul></div>
+        <div><p class="eyebrow">MOTION</p><ul><li><span>Premiere Pro</span><em>COMFORTABLE</em></li><li><span>After Effects</span><em>LEARNING</em></li><li><span>Blender</span><em>EXPLORING</em></li></ul></div>
+        <div><p class="eyebrow">EXPERIMENTS</p><ul><li><span>Canvas 2D</span><em>COMFORTABLE</em></li><li><span>GSAP</span><em>CURRENTLY USING</em></li><li><span>WebGL / Shaders</span><em>LEARNING</em></li><li><span>Generative art</span><em>EXPLORING</em></li></ul></div>
       </div>
-      <p class="toolkit-note">STATUS LABELS ARE EDITABLE PLACEHOLDERS — CONFIRM BEFORE PUBLISHING.</p>
+      <p class="toolkit-note">STATUS LABELS REFLECT MY HONEST, CURRENT RELATIONSHIP WITH EACH TOOL — NEVER A PERCENTAGE.</p>
     </section>
 
     <section class="contact-section section-pad" id="contact">
-      <div class="contact-orb" aria-hidden="true"></div><div class="contact-content"><p class="eyebrow"><span class="status-dot"></span> THE NEXT THING STARTS HERE</p><h2>HAVE AN IDEA?<br><span>LET'S MAKE IT</span><br>REAL<span class="lime">.</span></h2><p>Got a project, an experiment, or something interesting in mind? I'd love to hear about it.</p><a class="button button-lime" href="mailto:sparshsinghal.vca@gmail.com?subject=Let%27s%20make%20something" id="emailLink">START A CONVERSATION <span>↗</span></a><p class="contact-email"><a href="mailto:sparshsinghal.vca@gmail.com">sparshsinghal.vca@gmail.com ↗</a></p></div>
+      <div class="contact-orb" aria-hidden="true"></div><div class="contact-content"><p class="eyebrow"><span class="status-dot"></span> THE NEXT THING STARTS HERE</p><h2>HAVE AN IDEA?<br><span>LET'S MAKE IT</span><br>REAL<span class="lime">.</span></h2><p>Got a project, an experiment, or something interesting in mind? I'd love to hear about it. Open to interesting projects and experiments.</p><a class="button button-lime" href="mailto:sparshsinghal.vca@gmail.com?subject=Let%27s%20make%20something" id="emailLink">START A CONVERSATION <span>↗</span></a><p class="contact-email"><a href="mailto:sparshsinghal.vca@gmail.com">sparshsinghal.vca@gmail.com ↗</a></p></div>
       <div class="contact-bottom"><span>SPARSH.S</span><span>MADE WITH CURIOSITY, CODE, AND TOO MANY OPEN TABS.</span><div class="social-links"><a href="https://github.com/sparshsinghal1618" target="_blank" rel="noopener">GITHUB ↗</a><a href="https://www.reddit.com/user/Sparsh1618/" target="_blank" rel="noopener">REDDIT ↗</a><a href="https://open.spotify.com/user/31ufnhvckajf4tfvqnn2nmhuv2ve?si=7da161593fa44149" target="_blank" rel="noopener">SPOTIFY ↗</a><button class="discord-copy" type="button" id="discordCopy" data-discord="sparsh_haha" title="Copy Discord username">DISCORD · sparsh_haha ⧉</button><a href="mailto:sparshsinghal.vca@gmail.com">EMAIL ↗</a></div><a href="#top">BACK TO TOP ↑</a></div>
     </section>
   </main>
-  <footer class="site-footer"><span>© <span id="year"></span> SPARSH.S</span><span>BUILDING THINGS THAT FEEL LIKE THE FUTURE.</span><a href="mailto:sparshsinghal.vca@gmail.com">EMAIL ↗</a><span class="live-time" data-local-time>LOCAL TIME — --:--</span></footer>
+  <footer class="site-footer"><span>© <span id="year"></span> SPARSH.S</span><span>BUILT WITH HTML, CSS, JAVASCRIPT — AND A VERY DARK ROOM.</span><a href="mailto:sparshsinghal.vca@gmail.com">EMAIL ↗</a><span class="live-time" data-local-time>LOCAL TIME — --:--</span></footer>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Artwork viewer" aria-hidden="true">
     <button class="lightbox-close" id="lightboxClose" aria-label="Close artwork">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Previous artwork">←</button><div class="lightbox-content" id="lightboxContent"></div><button class="lightbox-next" id="lightboxNext" aria-label="Next artwork">→</button><p class="lightbox-caption" id="lightboxCaption"></p>
   </div>
   <div class="project-dialog" id="projectDialog" role="dialog" aria-modal="true" aria-hidden="true"><button id="projectDialogClose" aria-label="Close project details">×</button><p class="eyebrow" id="dialogCategory"></p><h2 id="dialogTitle"></h2><p id="dialogDescription"></p><p class="dialog-note">PERSONAL PROJECTS AND VISUAL REFERENCES · SPARSH SINGHAL</p></div>
   <script src="script.js"></script>
+  <script type="module">
+  /* WebGL hero sculpture — progressive enhancement over the CSS fallback object. */
+  (async () => {
+    const stage = document.getElementById('orbitalStage');
+    const canvas = document.getElementById('hero3d');
+    if (!stage || !canvas) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const small = window.matchMedia('(max-width: 900px)').matches;
+    const sources = [
+      'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js',
+      'https://unpkg.com/three@0.160.0/build/three.module.js'
+    ];
+    let THREE = null;
+    for (const src of sources) { try { THREE = await import(src); break; } catch (_) {} }
+    if (!THREE) return;
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !small, powerPreference: 'high-performance' });
+    } catch (_) { return; }
+    renderer.setClearColor(0x000000, 0);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, small ? 1.5 : 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.set(0, 0.1, 5.6);
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const seg = small ? [180, 24] : [320, 40];
+    const material = new THREE.ShaderMaterial({
+      uniforms: { uTime: { value: 0 } },
+      vertexShader: `
+        varying vec3 vN;
+        varying vec3 vV;
+        void main(){
+          vec4 mv = modelViewMatrix * vec4(position, 1.0);
+          vN = normalize(normalMatrix * normal);
+          vV = normalize(-mv.xyz);
+          gl_Position = projectionMatrix * mv;
+        }`,
+      fragmentShader: `
+        uniform float uTime;
+        varying vec3 vN;
+        varying vec3 vV;
+        void main(){
+          vec3 n = normalize(vN);
+          vec3 v = normalize(vV);
+          vec3 l1 = normalize(vec3(0.55, 0.80, 0.65));
+          vec3 l2 = normalize(vec3(-0.70, -0.25, 0.45));
+          float d1 = max(dot(n, l1), 0.0);
+          float d2 = max(dot(n, l2), 0.0);
+          float spec = pow(max(dot(n, normalize(l1 + v)), 0.0), 64.0);
+          float spec2 = pow(max(dot(n, normalize(l2 + v)), 0.0), 22.0);
+          float fres = pow(1.0 - max(dot(n, v), 0.0), 2.4);
+          vec3 plum  = vec3(0.26, 0.11, 0.28);
+          vec3 rose  = vec3(0.95, 0.31, 0.47);
+          vec3 peach = vec3(1.00, 0.73, 0.50);
+          vec3 cream = vec3(1.00, 0.95, 0.84);
+          vec3 col = mix(plum, rose, 0.22 + d1 * 0.78);
+          col = mix(col, peach, d2 * 0.55);
+          col += cream * spec * 0.95;
+          col += peach * spec2 * 0.35;
+          col = mix(col, vec3(1.0, 0.86, 0.72), fres * 0.75);
+          gl_FragColor = vec4(pow(col, vec3(0.4545)), 1.0);
+        }`,
+      side: THREE.FrontSide
+    });
+    const mesh = new THREE.Mesh(new THREE.TorusKnotGeometry(1.12, 0.34, seg[0], seg[1], 2, 3), material);
+    group.add(mesh);
+
+    const halo = new THREE.Mesh(
+      new THREE.TorusKnotGeometry(1.12, 0.34, Math.round(seg[0] / 3), Math.round(seg[1] / 3), 2, 3),
+      new THREE.MeshBasicMaterial({ color: 0x8b3d69, wireframe: true, transparent: true, opacity: 0.10 })
+    );
+    halo.scale.setScalar(1.06);
+    group.add(halo);
+
+    const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+    function resize(){
+      const r = stage.getBoundingClientRect();
+      const w = Math.max(1, r.width), h = Math.max(1, r.height);
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    let raf = 0, visible = true, onScreen = true;
+    const clock = new THREE.Clock();
+    function schedule(){
+      if (reduce || !visible || !onScreen || raf) return;
+      raf = requestAnimationFrame(frame);
+    }
+    function frame(){
+      raf = 0;
+      const t = clock.getElapsedTime();
+      material.uniforms.uTime.value = t;
+      pointer.x += (pointer.tx - pointer.x) * 0.05;
+      pointer.y += (pointer.ty - pointer.y) * 0.05;
+      group.rotation.y = t * 0.34 + pointer.x * 0.7;
+      group.rotation.x = Math.sin(t * 0.23) * 0.28 - pointer.y * 0.5;
+      group.rotation.z = Math.sin(t * 0.17) * 0.12;
+      renderer.render(scene, camera);
+      schedule();
+    }
+
+    if (window.matchMedia('(pointer: fine)').matches && !reduce) {
+      window.addEventListener('pointermove', (e) => {
+        pointer.tx = (e.clientX / window.innerWidth - 0.5) * 1.4;
+        pointer.ty = (e.clientY / window.innerHeight - 0.5) * 1.4;
+      }, { passive: true });
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        onScreen = entries[0].isIntersecting;
+        if (onScreen) schedule();
+      }, { threshold: 0.05 }).observe(stage);
+    }
+    document.addEventListener('visibilitychange', () => {
+      visible = !document.hidden;
+      if (visible) schedule();
+    });
+
+    stage.classList.add('has-3d');
+    if (reduce) renderer.render(scene, camera);
+    else schedule();
+  })();
+  </script>
 </body>
 </html>
