@@ -23,7 +23,14 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
-  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="transitions.css">
+  <script>
+    document.documentElement.classList.add('js');
+    /* Scroll-motion layer (pear-style transitions); off for reduced motion. */
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('motion-js');
+    }
+  </script>
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div><div class="grain" aria-hidden="true"></div>
@@ -192,21 +199,21 @@
         <div><p class="eyebrow">MOTION</p><ul><li><span>Premiere Pro</span><em>COMFORTABLE</em></li><li><span>After Effects</span><em>LEARNING</em></li><li><span>Blender</span><em>EXPLORING</em></li></ul></div>
         <div><p class="eyebrow">EXPERIMENTS</p><ul><li><span>Canvas 2D</span><em>COMFORTABLE</em></li><li><span>GSAP</span><em>CURRENTLY USING</em></li><li><span>WebGL / Shaders</span><em>LEARNING</em></li><li><span>Generative art</span><em>EXPLORING</em></li></ul></div>
       </div>
-      <p class="toolkit-note">STATUS LABELS REFLECT MY HONEST, CURRENT RELATIONSHIP WITH EACH TOOL — NEVER A PERCENTAGE.</p>
     </section>
 
     <section class="contact-section section-pad" id="contact">
       <div class="contact-orb" aria-hidden="true"></div><div class="contact-content"><p class="eyebrow"><span class="status-dot"></span> THE NEXT THING STARTS HERE</p><h2>HAVE AN IDEA?<br><span>LET'S MAKE IT</span><br>REAL<span class="lime">.</span></h2><p>Got a project, an experiment, or something interesting in mind? I'd love to hear about it. Open to interesting projects and experiments.</p><a class="button button-lime" href="mailto:sparshsinghal.vca@gmail.com?subject=Let%27s%20make%20something" id="emailLink">START A CONVERSATION <span>↗</span></a><p class="contact-email"><a href="mailto:sparshsinghal.vca@gmail.com">sparshsinghal.vca@gmail.com ↗</a></p></div>
-      <div class="contact-bottom"><span>SPARSH.S</span><span>MADE WITH CURIOSITY, CODE, AND TOO MANY OPEN TABS.</span><div class="social-links"><a href="https://github.com/sparshsinghal1618" target="_blank" rel="noopener">GITHUB ↗</a><a href="https://www.reddit.com/user/Sparsh1618/" target="_blank" rel="noopener">REDDIT ↗</a><a href="https://open.spotify.com/user/31ufnhvckajf4tfvqnn2nmhuv2ve?si=7da161593fa44149" target="_blank" rel="noopener">SPOTIFY ↗</a><button class="discord-copy" type="button" id="discordCopy" data-discord="sparsh_haha" title="Copy Discord username">DISCORD · sparsh_haha ⧉</button><a href="mailto:sparshsinghal.vca@gmail.com">EMAIL ↗</a></div><a href="#top">BACK TO TOP ↑</a></div>
+      <div class="contact-bottom"><span>SPARSH.S</span><div class="social-links"><a href="https://github.com/sparshsinghal1618" target="_blank" rel="noopener">GITHUB ↗</a><a href="https://www.reddit.com/user/Sparsh1618/" target="_blank" rel="noopener">REDDIT ↗</a><a href="https://open.spotify.com/user/31ufnhvckajf4tfvqnn2nmhuv2ve?si=7da161593fa44149" target="_blank" rel="noopener">SPOTIFY ↗</a><button class="discord-copy" type="button" id="discordCopy" data-discord="sparsh_haha" title="Copy Discord username">DISCORD · sparsh_haha ⧉</button><a href="mailto:sparshsinghal.vca@gmail.com">EMAIL ↗</a></div><a href="#top">BACK TO TOP ↑</a></div>
     </section>
   </main>
-  <footer class="site-footer"><span>© <span id="year"></span> SPARSH.S</span><span>BUILT WITH HTML, CSS, JAVASCRIPT — AND A VERY DARK ROOM.</span><a href="mailto:sparshsinghal.vca@gmail.com">EMAIL ↗</a><span class="live-time" data-local-time>LOCAL TIME — --:--</span></footer>
+  <footer class="site-footer"><span>© <span id="year"></span> SPARSH.S</span><a href="mailto:sparshsinghal.vca@gmail.com">EMAIL ↗</a><span class="live-time" data-local-time>LOCAL TIME — --:--</span></footer>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Artwork viewer" aria-hidden="true">
     <button class="lightbox-close" id="lightboxClose" aria-label="Close artwork">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Previous artwork">←</button><div class="lightbox-content" id="lightboxContent"></div><button class="lightbox-next" id="lightboxNext" aria-label="Next artwork">→</button><p class="lightbox-caption" id="lightboxCaption"></p>
   </div>
   <div class="project-dialog" id="projectDialog" role="dialog" aria-modal="true" aria-hidden="true"><button id="projectDialogClose" aria-label="Close project details">×</button><p class="eyebrow" id="dialogCategory"></p><h2 id="dialogTitle"></h2><p id="dialogDescription"></p><p class="dialog-note">PERSONAL PROJECTS AND VISUAL REFERENCES · SPARSH SINGHAL</p></div>
   <script src="script.js"></script>
+  <script src="transitions.js"></script>
   <script type="module">
   /* WebGL hero sculpture — progressive enhancement over the CSS fallback object. */
   (async () => {

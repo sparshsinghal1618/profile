@@ -1,0 +1,135 @@
+/* =============================================================
+   SPARSH.S — PEAR-STYLE SCROLL TRANSITIONS
+   -------------------------------------------------------------
+   A scroll-linked motion layer in the spirit of pear.no:
+   masked word/character wipes, blur-to-focus reveals, gradient
+   mask wipes on media, and a recede (exit) pass.
+
+   The JavaScript only ever writes the custom properties
+   --p (enter progress 0→1) and --e (exit progress 0→1).
+   Everything visual lives here.
+
+   Motion uses the INDIVIDUAL transform properties
+   (translate / rotate / scale) rather than `transform`, so it
+   composes with the existing `:hover` transforms instead of
+   overriding them.
+   ============================================================= */
+
+html.motion-js .m-own {
+  /* these containers are fully owned by this motion layer */
+  animation: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html.motion-js .is-settled {
+  will-change: auto;
+}
+
+/* ---------- 1. Masked heading reveal (word / char wipe) ------- */
+
+html.motion-js .m-split {
+  --m-stagger: .022;
+  --m-total: 1;
+  --in: clamp(0, var(--p, 0), 1);
+  /* recede (exit) once the heading scrolls up past the fold */
+  opacity: calc(1 - clamp(0, var(--e, 0), 1) * .85);
+  filter: blur(calc((1 - var(--in)) * 5px));
+}
+
+html.motion-js .m-split .m-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: .1em .04em .14em;
+  margin: -.1em -.04em -.14em;
+}
+
+html.motion-js .m-split .m-char {
+  display: inline-block;
+  /* each char starts after --i * --m-stagger and the whole run
+     completes exactly at --p: 1 (thanks to --m-total = 1 + n*stagger) */
+  --cp: clamp(0, calc(var(--p, 0) * var(--m-total, 1) - var(--i, 0) * var(--m-stagger, .022)), 1);
+  translate: 0 calc((1 - var(--cp)) * 118%);
+  rotate: calc((1 - var(--cp)) * 3.5deg);
+  opacity: var(--cp);
+}
+
+/* ---------- 2. Masked media wipe + blur focus ---------------- */
+
+html.motion-js .m-media {
+  --w: clamp(0, var(--p, 0), 1);
+  --x: clamp(0, var(--e, 0), 1);
+  opacity: calc(1 - var(--x) * .8);
+  filter: blur(calc((1 - var(--w)) * 10px));
+  -webkit-mask-image: linear-gradient(to top,
+      #000 calc(var(--w) * 145% - 45%),
+      transparent calc(var(--w) * 145% - 12%));
+  mask-image: linear-gradient(to top,
+      #000 calc(var(--w) * 145% - 45%),
+      transparent calc(var(--w) * 145% - 12%));
+  will-change: opacity, filter, mask-image;
+}
+
+/* preserve the portrait's permanent desaturation while revealing it */
+html.motion-js .about-portrait.m-media {
+  filter: blur(calc((1 - var(--w)) * 10px)) saturate(calc(.62 + var(--w) * .16));
+}
+
+html.motion-js .m-media-zoom {
+  --w: clamp(0, var(--p, 0), 1);
+  scale: calc(1.07 - var(--w) * .07);
+  transform-origin: 50% 100%;
+  will-change: scale;
+}
+
+/* fallback for engines without mask support: fade instead */
+@supports not ((mask-image: linear-gradient(#000, transparent)) or (-webkit-mask-image: linear-gradient(#000, transparent))) {
+  html.motion-js .m-media {
+    -webkit-mask-image: none;
+    mask-image: none;
+    opacity: calc(var(--w) * (1 - var(--x) * .8));
+  }
+}
+
+/* ---------- 3. Block reveals (cards, labels, meta) ------------ */
+
+html.motion-js .m-fade {
+  --w: clamp(0, var(--p, 0), 1);
+  opacity: var(--w);
+  filter: blur(calc((1 - var(--w)) * 7px));
+  translate: 0 calc((1 - var(--w)) * 26px);
+  will-change: opacity, filter, translate;
+}
+
+/* ---------- 4. CTA flood wipe ------------------------------- */
+
+html.motion-js .m-cta {
+  --cw: clamp(0, calc(var(--p, 0) / .6), 1);
+  clip-path: inset(0 calc((1 - var(--cw)) * 100%) 0 0);
+}
+
+/* ---------- 5. Reduced-motion + no-JS safety ---------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html.motion-js .m-split,
+  html.motion-js .m-media,
+  html.motion-js .m-media-zoom,
+  html.motion-js .m-fade,
+  html.motion-js .m-cta {
+    opacity: 1 !important;
+    filter: none !important;
+    translate: none !important;
+    rotate: none !important;
+    scale: none !important;
+    clip-path: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+  html.motion-js .m-split .m-char {
+    opacity: 1 !important;
+    translate: none !important;
+    rotate: none !important;
+  }
+}
