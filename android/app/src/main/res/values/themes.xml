@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SparshProfile" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/rose</item>
+        <item name="colorPrimaryVariant">@color/plum</item>
+        <item name="colorOnPrimary">@color/peach</item>
+        <item name="colorSecondary">@color/plum</item>
+        <item name="colorOnSecondary">@color/peach</item>
+        <item name="android:statusBarColor">@color/peach</item>
+        <item name="android:navigationBarColor">@color/peach</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+    </style>
+
+    <style name="Theme.SparshProfile.NoActionBar" parent="Theme.SparshProfile">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/peach</item>
+    </style>
+</resources>
