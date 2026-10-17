@@ -1,0 +1,335 @@
+/* =============================================================
+   SPARSH.S — SCROLL CHOREOGRAPHY + ARTCRAFT-STYLE RULER
+   -------------------------------------------------------------
+   An additive layer inspired by getartcraft.com/download:
+
+     1. Right-side ruler — a frosted feathered rail on the right
+        edge with minor/major ticks + % labels, a glowing needle
+        and a rolling-digit readout, a hover ghost line, and
+        click / drag to jump. The native scrollbar is hidden
+        while the ruler is active (same as ArtCraft's
+        html[data-ruler=on]).
+     2. Top progress rail — travelling sheen + leading spark.
+     3. Draw choreography — sections draw a hairline from the
+        left, raise corner ticks, and pin their chapter index
+        as a sticky eyebrow.
+
+   Metrics lifted from ArtCraft's rulerLayout / rulerLook:
+     railW 54 · minor 1% · label 5% · minorLen 10 · majorLen 20
+     label at majorLen+4 · edgePad 12 below the nav
+     frost solid for the outer 40%, gamma 2.2 feather
+
+   Reversible: delete choreo.css + choreo.js and remove the two
+   <link>/<script> tags from index.html. The whole layer is
+   gated behind prefers-reduced-motion: no-preference and a
+   precise pointer at >=768px.
+   ============================================================= */
+
+/* ---------- 1. NATIVE SCROLLBAR (fallback + inner scrollers) -- */
+
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track {
+  background: rgba(75, 37, 65, .05);
+  box-shadow: inset 1px 0 0 rgba(75, 37, 65, .14);
+}
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+  background-image: linear-gradient(180deg, #f04c78 0%, #ff9e63 52%, #fff0d6 100%);
+  background-size: 100% 220%;
+  animation: sbTravel 4.5s linear infinite;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(180deg, #ff6c92 0%, #ffb27f 55%, #fff6e6 100%);
+}
+::-webkit-scrollbar-thumb:active {
+  background-image: linear-gradient(180deg, #e23f6b 0%, #ff8f4f 100%);
+}
+::-webkit-scrollbar-corner { background: transparent; }
+
+@keyframes sbTravel {
+  from { background-position: 0 0; }
+  to   { background-position: 0 220%; }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  html { scrollbar-width: thin; scrollbar-color: #f04c78 rgba(75, 37, 65, .12); }
+}
+
+/* While the ruler owns the right edge, the root scrollbar goes away
+   (ArtCraft: html[data-ruler=on]{scrollbar-width:none}). */
+html[data-ruler="on"] { scrollbar-width: none; }
+html[data-ruler="on"]::-webkit-scrollbar {
+  width: 0; height: 0; display: none;
+}
+
+/* ---------- 2. RIGHT-SIDE RULER ------------------------------- */
+
+.ruler {
+  --ruler-w: max(34px, min(54px, calc(var(--page) - 8px)));
+  --ruler-pad-top: 90px;   /* nav height 78 + edgePad 12 */
+  --ruler-pad-bottom: 12px;
+  --ruler-ink: #38223e;
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: var(--ruler-w);
+  z-index: 40;
+  overflow: hidden;
+  cursor: crosshair;
+  touch-action: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s;
+}
+
+.ruler.ruler-ready { opacity: 1; visibility: visible; }
+
+/* frosted backdrop, feathered inward from the outer edge
+   (ArtCraft: solid for the outer 40%, gamma 2.2 falloff) */
+.ruler-frost {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-color: color-mix(in srgb, var(--bg) 55%, transparent);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  -webkit-mask-image: linear-gradient(to left,
+    #000 0%, #000 40%,
+    rgba(0, 0, 0, .745) 47.5%, rgba(0, 0, 0, .531) 55%,
+    rgba(0, 0, 0, .356) 62.5%, rgba(0, 0, 0, .218) 70%,
+    rgba(0, 0, 0, .116) 77.5%, rgba(0, 0, 0, .047) 85%,
+    rgba(0, 0, 0, .010) 92.5%, transparent 100%);
+  mask-image: linear-gradient(to left,
+    #000 0%, #000 40%,
+    rgba(0, 0, 0, .745) 47.5%, rgba(0, 0, 0, .531) 55%,
+    rgba(0, 0, 0, .356) 62.5%, rgba(0, 0, 0, .218) 70%,
+    rgba(0, 0, 0, .116) 77.5%, rgba(0, 0, 0, .047) 85%,
+    rgba(0, 0, 0, .010) 92.5%, transparent 100%);
+}
+
+/* the mapped span: 0% at the top, 100% at the bottom */
+.ruler-inner {
+  position: absolute;
+  top: var(--ruler-pad-top);
+  bottom: var(--ruler-pad-bottom);
+  left: 0; right: 0;
+}
+
+.ruler-tick {
+  position: absolute;
+  right: 0;
+  width: 10px;
+  height: 1px;
+  background: var(--ruler-ink);
+  opacity: .4;
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: right center;
+  transition: transform .5s cubic-bezier(.22, .72, .18, 1);
+  transition-delay: calc(var(--i, 0) * 10ms);
+  will-change: transform;
+}
+.ruler-tick.is-major { width: 20px; opacity: .8; }
+
+.ruler-label {
+  position: absolute;
+  right: 24px;
+  font: 9px/1 var(--mono);
+  letter-spacing: .08em;
+  color: var(--ruler-ink);
+  opacity: .5;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* needle + readout */
+.ruler-needle {
+  position: absolute;
+  top: calc(var(--ruler-p, 0) * 100%);
+  left: 0; right: 0;
+  height: 1px;
+  transform: translateY(-50%);
+  opacity: min(1, calc(var(--ruler-p, 0) * 33));
+  pointer-events: none;
+  will-change: top, opacity;
+}
+
+.ruler-line {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 1px;
+  background: var(--lime);
+  box-shadow: 0 0 6px rgba(240, 76, 120, .95);
+}
+
+.ruler-readout {
+  position: absolute;
+  right: 2px;
+  top: 4px;
+  display: inline-flex;
+  align-items: flex-start;
+  font: 9px/1 var(--mono);
+  letter-spacing: .08em;
+  color: var(--lime);
+  text-shadow: 0 0 6px rgba(240, 76, 120, .75), 0 1px 3px rgba(255, 240, 223, .8);
+  white-space: nowrap;
+}
+.ruler-readout.is-above { top: auto; bottom: 4px; }
+
+.ruler-digits { display: inline-flex; height: 1em; overflow: hidden; }
+.ruler-digit-col {
+  display: flex;
+  flex-direction: column;
+  transition: transform .28s cubic-bezier(.2, .9, .2, 1);
+}
+.ruler-digit-col > span { height: 1em; display: block; text-align: right; }
+.ruler-pct { margin-left: 2px; }
+
+/* hover ghost: where a click will land */
+.ruler-ghost {
+  position: absolute;
+  left: 0; right: 0;
+  height: 3px;
+  background: var(--ruler-ink);
+  opacity: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: opacity .3s ease;
+  will-change: top, opacity;
+}
+.ruler-ghost.is-active { opacity: .85; }
+
+/* draw-in cascade, top-down (ArtCraft introStagger .01) */
+.ruler.ruler-ready .ruler-tick {
+  transform: translateY(-50%) scaleX(1);
+}
+
+/* narrow desktops / tablets: shorten ticks so labels still fit
+   inside the narrower rail (page gutter shrinks with --page) */
+@media (max-width: 900px) {
+  .ruler-tick { width: 8px; }
+  .ruler-tick.is-major { width: 15px; }
+  .ruler-label { right: 19px; font-size: 8px; }
+  .ruler-readout { font-size: 8px; }
+}
+
+/* ---------- 3. TOP PROGRESS RAIL ------------------------------ */
+
+.scroll-progress span {
+  background-image: linear-gradient(90deg,
+    #f04c78 0%, #ff9e63 30%, #fff0d6 52%, #ff9e63 74%, #f04c78 100%);
+  background-size: 240% 100%;
+  animation: barSheen 3.4s linear infinite, progressGlow linear both;
+  animation-timeline: auto, --page-scroll;
+}
+
+@keyframes barSheen {
+  from { background-position: 0 0; }
+  to   { background-position: -240% 0; }
+}
+
+.scroll-spark {
+  position: fixed;
+  top: 0;
+  left: calc(var(--scroll-progress, 0) * 100%);
+  z-index: 121;
+  width: 16px;
+  height: 16px;
+  margin: -6.5px 0 0 -8px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: min(1, calc(var(--scroll-progress, 0) * 6));
+  background: radial-gradient(circle,
+    #fff7e8 0%,
+    rgba(255, 230, 200, .9) 22%,
+    rgba(240, 76, 120, .75) 45%,
+    rgba(240, 76, 120, 0) 72%);
+}
+
+/* ---------- 4. DRAW CHOREOGRAPHY ------------------------------ */
+
+.choreo-section { position: relative; }
+
+.choreo {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.choreo::before {
+  content: "";
+  position: absolute;
+  top: 0; left: var(--page); right: var(--page);
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgba(240, 76, 120, .8) 0%,
+    rgba(255, 158, 99, .55) 34%,
+    rgba(240, 76, 120, .2) 68%,
+    rgba(75, 37, 65, .1) 100%);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.05s cubic-bezier(.22, .72, .18, 1);
+}
+
+.choreo i {
+  position: absolute;
+  top: -4px;
+  width: 9px; height: 9px;
+  border-top: 1px solid rgba(240, 76, 120, .85);
+  border-left: 1px solid rgba(240, 76, 120, .85);
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity .5s ease .35s, transform .6s cubic-bezier(.22, .72, .18, 1) .35s;
+}
+.choreo i:first-child { left: calc(var(--page) - 4px); }
+.choreo i:last-child {
+  right: calc(var(--page) - 4px);
+  border-left: 0;
+  border-right: 1px solid rgba(240, 76, 120, .85);
+}
+
+.choreo-section.in-view > .choreo::before { transform: scaleX(1); }
+.choreo-section.in-view > .choreo i { opacity: 1; transform: translateY(0); }
+
+.choreo-section { --choreo-bar-bg: rgba(255, 240, 223, .78); }
+.dev-section, .design-section, .playground-section { --choreo-bar-bg: rgba(11, 13, 16, .74); }
+
+.choreo-section .chapter-index {
+  position: sticky;
+  top: 78px;
+  z-index: 6;
+  background: var(--choreo-bar-bg);
+  -webkit-backdrop-filter: blur(10px) saturate(1.25);
+  backdrop-filter: blur(10px) saturate(1.25);
+}
+
+.choreo-section .chapter-index::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, #f04c78, #ff9e63 62%, rgba(255, 158, 99, 0));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .9s cubic-bezier(.22, .72, .18, 1) .12s;
+}
+.choreo-section.in-view > .chapter-index::after { transform: scaleX(1); }
+
+@media (max-width: 620px) {
+  .choreo-section .chapter-index { top: 68px; }
+}
+
+/* ---------- 5. REDUCED MOTION -------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ruler { display: none; }
+  ::-webkit-scrollbar-thumb { animation: none; }
+  .scroll-progress span { animation: none; }
+  .scroll-spark { display: none; }
+  .choreo::before, .choreo i, .choreo-section .chapter-index::after { transition: none; }
+}
