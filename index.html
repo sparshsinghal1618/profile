@@ -22,6 +22,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SPARSH.S">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="transitions.css">
   <link rel="stylesheet" href="choreo.css">
@@ -213,6 +219,7 @@
     <button class="lightbox-close" id="lightboxClose" aria-label="Close artwork">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Previous artwork">←</button><div class="lightbox-content" id="lightboxContent"></div><button class="lightbox-next" id="lightboxNext" aria-label="Next artwork">→</button><p class="lightbox-caption" id="lightboxCaption"></p>
   </div>
   <div class="project-dialog" id="projectDialog" role="dialog" aria-modal="true" aria-hidden="true"><button id="projectDialogClose" aria-label="Close project details">×</button><p class="eyebrow" id="dialogCategory"></p><h2 id="dialogTitle"></h2><p id="dialogDescription"></p><p class="dialog-note">PERSONAL PROJECTS AND VISUAL REFERENCES · SPARSH SINGHAL</p></div>
+  <script src="pwa.js" defer></script>
   <script src="script.js"></script>
   <script src="transitions.js"></script>
   <script src="choreo.js" defer></script>
